@@ -1,0 +1,17 @@
+CAP_A, CAP_B, TARGET = 4, 3, 2
+def next_states(x, y):
+states = []
+states += [((CAP_A, y), 'Fill A'), ((x, CAP_B), 'Fill B')]
+states += [((0, y), 'Empty A'), ((x, 0), 'Empty B')]
+t = min(x, CAP_B - y); states.append(((x - t, y + t), 'Pour A -> B'))
+t = min(y, CAP_A - x); states.append(((x + t, y - t), 'Pour B -> A'))
+return states
+stack = [((0, 0), [])]; visited = {(0, 0)}; solution = None
+while stack:
+state, path = stack.pop(); x, y = state
+if x == TARGET or y == TARGET:
+solution = path + [state]; break
+for nxt, action in next_states(x, y):
+if nxt not in visited:
+visited.add(nxt); stack.append((nxt, path + [action]))
+print('DFS solution:', solution)
