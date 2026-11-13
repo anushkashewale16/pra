@@ -1,0 +1,30 @@
+
+import random
+
+# Generate a secret number
+secret = random.randint(1, 100)
+
+low = 1
+high = 100
+
+print("Think of a number between 1 and 100.")
+print("Give feedback: higher or lower.")
+
+while low <= high:
+
+    guess = (low + high) // 2
+
+    print("\nAgent guesses:", guess)
+
+    if guess == secret:
+        print("Agent guessed the correct number!")
+        break
+
+    elif guess < secret:
+        print("Feedback: Higher")
+        low = guess + 1
+
+    else:
+        print("Feedback: Lower")
+        high = guess - 1
+
