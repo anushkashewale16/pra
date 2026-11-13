@@ -1,0 +1,30 @@
+start = (1,2,3,4,0,6,7,5,8)
+goal = (1,2,3,4,5,6,7,8,0)
+def manhattan(state):
+distance = 0
+for i, tile in enumerate(state):
+if tile == 0: continue
+gi = goal.index(tile)
+distance += abs(i//3 - gi//3) + abs(i%3 - gi%3)
+return distance
+def successors(state):
+z = state.index(0); r, c = divmod(z, 3)
+for dr, dc, move in [(1,0,'Down'),(-1,0,'Up'),(0,1,'Right'),
+(0,-1,'Left')]:
+nr, nc = r+dr, c+dc
+if 0 <= nr < 3 and 0 <= nc < 3:
+nz = nr*3 + nc; s = list(state)
+s[z], s[nz] = s[nz], s[z]
+yield tuple(s), move
+pq = [(manhattan(start), 0, start)]
+parent = {start: (None, None)}; gscore = {start: 0}; found = False
+while pq:
+f, g, state = heapq.heappop(pq)
+if state == goal: found = True; break
+for nxt, move in successors(state):
+ng = g + 1
+if ng < gscore.get(nxt, float('inf')):
+gscore[nxt] = ng; parent[nxt] = (state, move)
+heapq.heappush(pq, (ng + manhattan(nxt), ng, nxt))
+# then: walk back through parent to build moves, print reversed(moves) and
+Cost
