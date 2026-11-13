@@ -1,0 +1,15 @@
+rooms = {'A': 'Dirty', 'B': 'Dirty'}
+location = 'A'
+def reflex_agent(location, status):
+if status == 'Dirty':
+return 'SUCK'
+return 'RIGHT' if location == 'A' else 'LEFT'
+for step in range(6):
+status = rooms[location]
+action = reflex_agent(location, status)
+print(f'Step {step+1}: Location={location}, Status={status}, Action=
+{action}')
+if action == 'SUCK': rooms[location] = 'Clean'
+elif action == 'RIGHT': location = 'B'
+elif action == 'LEFT': location = 'A'
+print('Final state:', rooms)
